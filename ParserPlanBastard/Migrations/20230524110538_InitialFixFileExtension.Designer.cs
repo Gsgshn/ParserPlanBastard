@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParserPlanBastard.Data;
 
@@ -11,9 +12,10 @@ using ParserPlanBastard.Data;
 namespace ParserPlanBastard.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230524110538_InitialFixFileExtension")]
+    partial class InitialFixFileExtension
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,13 +206,11 @@ namespace ParserPlanBastard.Migrations
 
                     b.Property<string>("FilePath")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<string>("Hash")
                         .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -219,7 +219,6 @@ namespace ParserPlanBastard.Migrations
                         .HasColumnType("int");
 
                     b.Property<long>("VolumeFile")
-                        .HasMaxLength(256)
                         .HasColumnType("bigint");
 
                     b.HasKey("Id")

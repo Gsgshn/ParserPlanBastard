@@ -208,7 +208,7 @@ namespace ParserPlanBastard.Pages
         //                Hash = "hash_value",
         //                FilePath = relativePath,
         //                FileExtension = Path.GetExtension(file.FileName),
-        //                VolumeFile = _xmlRepository.GetFileSizeInKilobytes(file),
+        //                VolumeFile = file.Length,
         //                UserId = user.Id
         //            };
 
@@ -247,6 +247,7 @@ namespace ParserPlanBastard.Pages
             var userId = user.Id;
             return await _context.Logging
                 .Where(logging => logging.UserId == userId)
+                
                 .ToListAsync();
         }
     }

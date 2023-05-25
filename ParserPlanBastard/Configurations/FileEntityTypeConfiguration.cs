@@ -14,18 +14,22 @@ namespace ParserPlanBastard.Configurations
                 .HasName("PK_Files_Id");
 
             builder.Property(file => file.Hash)
+                .HasMaxLength(256)
                 .HasColumnType("nvarchar");
 
             builder.Property(file => file.FilePath)
                 .IsRequired()
+                .HasMaxLength(256)
                 .HasColumnType("nvarchar");
 
             builder.Property(file => file.FileExtension)
                 .IsRequired()
+                .HasMaxLength(256)
                 .HasColumnType("nvarchar");
 
             builder.Property(file => file.VolumeFile)
                .IsRequired()
+               .HasMaxLength(256)
                .HasColumnType("bigint");
 
             builder.HasOne(file => file.User)
