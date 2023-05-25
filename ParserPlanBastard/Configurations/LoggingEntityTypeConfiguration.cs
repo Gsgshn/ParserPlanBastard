@@ -12,7 +12,7 @@ namespace ParserPlanBastard.Configurations
                 .HasName("PK_Logging_Id");
 
             builder.Property(logging => logging.Date)
-                .HasColumnType("date");
+                .HasColumnType("datetime");
 
             builder.HasOne(logging => logging.User)
                 .WithMany(user => user.Loggings)

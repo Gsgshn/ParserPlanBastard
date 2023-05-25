@@ -149,7 +149,17 @@ namespace ParserPlanBastard.Pages
                 };
 
                 _context.Files.Add(newFile);
-                
+
+                try
+                {
+                   
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
                 var newLog = new Logging
                 {
                     Date = DateTime.Now,
@@ -247,7 +257,7 @@ namespace ParserPlanBastard.Pages
             var userId = user.Id;
             return await _context.Logging
                 .Where(logging => logging.UserId == userId)
-                
+                .Include(logging => logging.File)
                 .ToListAsync();
         }
     }
