@@ -1,10 +1,9 @@
 ﻿@page "{handler?}/{message?}"
-@model IndexModel
+@model ParserPlanBastard.Pages.ParserPageModel
 @{
-    ViewData["Title"] = "Home page";
 }
 
-@*<div class="mb-3">
+<div class="mb-3">
     <select class="form-control" id="loggingsDropdown">
         @foreach (var logging in await Model.GetLoggingsByUserId())
         {
@@ -48,8 +47,8 @@
             <span id="loading" style="display:none;"> <i class="fas fa-spinner fa-spin mb-3"></i></span>
         </form>
 
-       
-        
+
+
         <div class="row">
             <div id="updateDiv" class="col"></div>
             <div id="updateLoad" class="col text-center"></div>
@@ -70,4 +69,4 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
     }
-</div>*@
+</div>

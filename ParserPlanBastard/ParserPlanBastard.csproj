@@ -9,6 +9,7 @@
   <ItemGroup>
     <None Include="Pages\Error.cshtml" />
     <None Include="Pages\Index.cshtml" />
+    <None Include="Pages\ParserPage.cshtml" />
     <None Include="Pages\Privacy.cshtml" />
     <None Include="Pages\Shared\_Layout.cshtml" />
     <None Include="Pages\Shared\_ValidationScriptsPartial.cshtml" />
@@ -31,6 +32,14 @@
 
   <ItemGroup>
     <Folder Include="UploadedFiles\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\ParserPage.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\ParserPage.cshtml" />
   </ItemGroup>
 
 </Project>
