@@ -19,32 +19,34 @@
                 </button>
                 @if (User.Identity.IsAuthenticated)
                 {
-                   <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                         <li class="nav-item">
-                             <a class="nav-link text-dark" asp-area="" asp-page="/ParserPage">Parse</a>
-                         </li>
-                    </ul>
-                </div> 
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/ParserPage">Parse</a>
+                            </li>
+                        </ul>
+                    </div>
                 }
                 
                 <partial name="_LoginPartial"/>
+                @RenderSection("historyHeader",required:false)
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted fixed-bottom">
         <div class="container">
             &copy; 2023 - ParserPlanBlet - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>

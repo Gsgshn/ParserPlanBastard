@@ -11,19 +11,42 @@ using ParserPlanBastard.Service;
 
 namespace ParserPlanBastard.Pages
 {
+
     public class IndexModel : PageModel
     {
-        
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
+        public async Task<List<Logging>> GetLoggingsByUserId()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userName = User.Identity.Name;
+
+                var user = await _userManager.FindByNameAsync(userName);
+                var userId = user.Id;
+                return await _context.Logging
+                    .Where(logging => logging.UserId == userId)
+                    .Include(logging => logging.File)
+                    .ToListAsync();
+            }
+            else
+            {
+                return null;
+            }
+           
+            
+        }
+
         //private readonly ApplicationDbContext _context;
         //private readonly UserManager<User> _userManager;
         //private readonly IXmlRepository _xmlRepository;
 
-        //public IndexModel(ApplicationDbContext context, UserManager<User> userManager, IXmlRepository xmlRepository)
-        //{
-        //    _context = context;
-        //    _userManager = userManager;
-        //    _xmlRepository = xmlRepository;
-        //}
+        public IndexModel(ApplicationDbContext context, UserManager<User> userManager/*, IXmlRepository xmlRepository*/)
+        {
+            _context = context;
+            _userManager = userManager;
+            //_xmlRepository = xmlRepository;
+        }
 
         //[BindProperty]
         //public IEnumerable<Node> Node { get; set; }
@@ -84,11 +107,11 @@ namespace ParserPlanBastard.Pages
         //}
         ////public async Task<int> OnPostCreateLogging(IFormFile file)
         ////{
-           
+
 
         ////    if(file!=null)
         ////    {
-                
+
 
         ////        return newLog.Id & newFile.Id; 
         ////    }
@@ -152,7 +175,7 @@ namespace ParserPlanBastard.Pages
 
         //        try
         //        {
-                   
+
         //            await _context.SaveChangesAsync();
         //        }
         //        catch (Exception ex)

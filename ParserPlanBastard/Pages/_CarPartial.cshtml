@@ -2,19 +2,23 @@
 @using ParserPlanBastard.Service;
 @model List<Node>
 
+
 @foreach (var item in Model)
 {
-    <details>
-        <summary>
-            <button id="LoadSignIn" class="btn btn-light my-button" data-button-text="@item.ShortName">
-                @item.ShortName
-            </button>
-        </summary>
-        <ul id="myList">
-            @await TreeView(item)
-        </ul>
-    </details>
+    
+        <details>
+            <summary>
+                <button id="LoadSignIn" class="btn btn-light my-button" data-button-text="@item.ShortName">
+                    @item.ShortName
+                </button>
+            </summary>
+            <ul id="myList">
+                @await TreeView(item)
+            </ul>
+        </details>
+    
 }
+
 
 @{
     async Task<Node> TreeView(Node nodes)
@@ -51,7 +55,7 @@
         button.addEventListener('click', function () {
             var buttonText = this.getAttribute('data-button-text');
             $.ajax({
-                url: "/Index?handler=BtnClick&buttonText=" + encodeURIComponent(buttonText),
+                url: "/ParserPage?handler=BtnClick&buttonText=" + encodeURIComponent(buttonText),
                 success: function (result) {
                     $("#updateLoad").html(result);
                 }

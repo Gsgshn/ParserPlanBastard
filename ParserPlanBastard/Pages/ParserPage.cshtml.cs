@@ -81,19 +81,7 @@ namespace ParserPlanBastard.Pages
             }
             return null;
         }
-        //public async Task<int> OnPostCreateLogging(IFormFile file)
-        //{
-
-
-        //    if(file!=null)
-        //    {
-
-
-        //        return newLog.Id & newFile.Id; 
-        //    }
-        //    return 0;
-
-        //}
+        
 
         public async Task<PartialViewResult> OnPost(IFormFile file)
         {
@@ -142,7 +130,7 @@ namespace ParserPlanBastard.Pages
                 {
                     Hash = "hash_value",
                     FilePath = relativePath,
-                    FileExtension = "." + Path.GetFileNameWithoutExtension(file.FileName),
+                    FileExtension =Path.GetExtension(file.FileName),
                     VolumeFile = file.Length,
                     UserId = user.Id
                 };
@@ -189,65 +177,7 @@ namespace ParserPlanBastard.Pages
 
 
         }
-        //public async Task<PartialViewResult> OnPost(IFormFile file)
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-
-        //    if (file != null)
-        //    {
-        //        if (await _xmlRepository.UploadFile(file))
-        //        {
-        //            string basePath = Path.Combine(Environment.CurrentDirectory, "UploadedFiles");
-        //            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        //            string relativePath = Path.Combine("UploadedFiles", fileName);
-        //            string fullPath = Path.Combine(basePath, fileName);
-
-        //            if (!Directory.Exists(basePath))
-        //            {
-        //                Directory.CreateDirectory(basePath);
-        //            }
-
-        //            using (var fileStream = new FileStream(fullPath, FileMode.Create))
-        //            {
-        //                await file.CopyToAsync(fileStream);
-        //            }
-
-        //            var newFile = new Models.Entities.File
-        //            {
-        //                Hash = "hash_value",
-        //                FilePath = relativePath,
-        //                FileExtension = Path.GetExtension(file.FileName),
-        //                VolumeFile = file.Length,
-        //                UserId = user.Id
-        //            };
-
-        //            _context.Files.Add(newFile);
-        //            await _context.SaveChangesAsync();
-        //            var newLog = new Logging
-        //            {
-        //                Date = DateTime.Now,
-        //                UserId = user.Id,
-        //                FileId = newFile.Id
-        //            };
-
-        //            _context.Logging.Add(newLog);
-        //            await _context.SaveChangesAsync();
-
-        //            _xmlRepository.FilePath = relativePath;
-        //            _xmlRepository.XmlDocument = new XmlDocument();
-
-        //            return Partial("_CarPartial", _xmlRepository.Nodes);
-        //        }
-        //        else
-        //        {
-        //            // Обработка случая, когда файл не удалось загрузить
-        //            ViewData["Message"] = "File Upload Failed";
-        //        }
-        //    }
-
-        //    // Обработка других случаев, если файл не был выбран
-        //    return Partial("_CarPartial");
-        //}
+        
         public async Task<List<Logging>> GetLoggingsByUserId()
         {
             var userName = User.Identity.Name;

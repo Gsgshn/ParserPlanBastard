@@ -3,18 +3,7 @@
 @{
 }
 
-<div class="mb-3">
-    <select class="form-control" id="loggingsDropdown">
-        @foreach (var logging in await Model.GetLoggingsByUserId())
-        {
-            <option>@logging.Date</option>
-            if (logging.File != null)
-            {
-                <option>@logging.File.FilePath</option>
-            }
-        }
-    </select>
-</div>
+
 
 <div class="text-center">
     <h1 class="display-4">
@@ -48,10 +37,11 @@
         </form>
 
 
-
+        <div class="col">
         <div class="row">
             <div id="updateDiv" class="col"></div>
             <div id="updateLoad" class="col text-center"></div>
+        </div>
         </div>
 
 
@@ -70,3 +60,22 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>
     }
 </div>
+
+@section historyHeader{
+<div class=" w-25">
+      <select class="form-control" id="loggingsDropdown">
+           @if (User.Identity.IsAuthenticated)
+                        {
+             foreach (var logging in await Model.GetLoggingsByUserId())
+             {
+
+               if (logging.File != null)
+               {
+                                    <option>Дата: @logging.Date Имя файла: @logging.File.FilePath</option>
+               }
+             } 
+           }
+                        
+       </select>
+</div>
+}
