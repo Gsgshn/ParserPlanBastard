@@ -37,12 +37,12 @@
         </form>
 
 
-        <div class="col">
+        
         <div class="row">
             <div id="updateDiv" class="col"></div>
             <div id="updateLoad" class="col text-center"></div>
         </div>
-        </div>
+        
 
 
     </div>
@@ -54,6 +54,23 @@
         </div>
     }
 
+<script>
+    var buttons = document.querySelectorAll('.my-button1');
+
+    buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var buttonText = this.getAttribute('data-button-text');
+            $.ajax({
+                
+               url: "/ParserPageModel?handler=RepeateOperations&buttonText" + encodeURIComponent(buttonText),
+               success: function (result) {
+                    $("#updateDiv").html(result);
+               }
+            });
+        });
+    });
+        
+</script>
 
     @section Scripts {
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
@@ -62,20 +79,31 @@
 </div>
 
 @section historyHeader{
-<div class=" w-25">
-      <select class="form-control" id="loggingsDropdown">
-           @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="mb-0">
+            <div class="dropdown">
+                <button class="btn dropdown-toggle"
+                type="button"
+                id="historyDropdownButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+                История преобразований
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="historyDropdownButton">
+                    @foreach(var logging in await Model.GetLoggingsByUserId())
+                    {
+                        if(logging.File != null)
                         {
-             foreach (var logging in await Model.GetLoggingsByUserId())
-             {
-
-               if (logging.File != null)
-               {
-                                    <option>Дата: @logging.Date Имя файла: @logging.File.FilePath</option>
-               }
-             } 
-           }
-                        
-       </select>
-</div>
+                            <li>
+                                <button class="dropdown-item my-button1" data-button-text="@logging.File.FileName">
+                                    Дата: @logging.Date Файл: @logging.File.FileName
+                                </button>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    }
 }

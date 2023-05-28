@@ -1,10 +1,5 @@
-﻿using NuGet.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Text;
+using XSystem.Security.Cryptography;
 
 namespace ParserPlanBastard.Models.Entities
 {
@@ -15,6 +10,7 @@ namespace ParserPlanBastard.Models.Entities
 
         public string Hash { get; set; }
         public string FilePath { get; set; }
+        public string FileName { get; set; }
         public string FileExtension { get; set; }
         public long VolumeFile { get; set; }
 
@@ -24,54 +20,50 @@ namespace ParserPlanBastard.Models.Entities
         public ICollection<Element> Elements { get; set; }
         public ICollection<Logging> Loggings { get; set; }
 
-        //        string sSourceData;
-        //        byte[] tmpSource;
-        //        byte[] tmpHash;
-        //         sSourceData = "MySourceData";
-        //            //Create a byte array from source data
-        //            tmpSource = ASCIIEncoding.ASCII.GetBytes(sSourceData);
+        public static byte[] ComputeAHash(string file)
+        {
+            byte[] tmpSource;
+            byte[] tmpNewHash;
 
-        //            //Compute hash based on source data
-        //            tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource);
-        //        Console.WriteLine(ByteArrayToString(tmpHash));
+            tmpSource = ASCIIEncoding.ASCII.GetBytes(file);
 
-        //            sSourceData = "NotMySourceData";
-        //            tmpSource = ASCIIEncoding.ASCII.GetBytes(sSourceData);
+            tmpNewHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource);
 
-        //            byte[] tmpNewHash;
+            return tmpNewHash;
+        }
 
-        //        tmpNewHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource);
+        public static bool CheckHash(byte[] firstHash, byte[] secondHash)
+        {
+            bool bEqual = false;
+            if (secondHash.Length == firstHash.Length)
+            {
+                int i = 0;
+                while ((i < secondHash.Length) && (secondHash[i] == firstHash[i]))
+                {
+                    i += 1;
+                }
+                if (i == secondHash.Length)
+                {
+                    return bEqual = true;
+                }
+                else
+                    return bEqual = false;
+            }
+            return bEqual = false;
+        }
 
-        //        bool bEqual = false;
-        //            if (tmpNewHash.Length == tmpHash.Length)
-        //            {
-        //                int i = 0;
-        //                while ((i<tmpNewHash.Length) && (tmpNewHash[i] == tmpHash[i]))
-        //                {
-        //                    i += 1;
-        //                }
-        //                if (i == tmpNewHash.Length)
-        //                {
-        //                    bEqual = true;
-        //                }
-        //            }
 
-        //            if (bEqual)
-        //    Console.WriteLine("The two hash values are the same");
-        //else
-        //    Console.WriteLine("The two hash values are not the same");
-        //Console.ReadLine();
-        //        }
 
-        //        static string ByteArrayToString(byte[] arrInput)
-        //{
-        //    int i;
-        //    StringBuilder sOutput = new StringBuilder(arrInput.Length);
-        //    for (i = 0; i < arrInput.Length - 1; i++)
-        //    {
-        //        sOutput.Append(arrInput[i].ToString("X2"));
-        //    }
-        //    return sOutput.ToString();
-        //}
+
+        public static string ByteArrayToString(byte[] arrInput)
+        {
+            int i;
+            StringBuilder sOutput = new StringBuilder(arrInput.Length);
+            for (i = 0; i < arrInput.Length - 1; i++)
+            {
+                sOutput.Append(arrInput[i].ToString("X2"));
+            }
+            return sOutput.ToString();
+        }
     }
 }

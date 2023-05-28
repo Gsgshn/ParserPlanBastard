@@ -22,6 +22,11 @@ namespace ParserPlanBastard.Configurations
                 .HasMaxLength(256)
                 .HasColumnType("nvarchar");
 
+            builder.Property(file => file.FileName)
+                .IsRequired()
+                .HasMaxLength(256)
+                .HasColumnType("nvarchar");
+
             builder.Property(file => file.FileExtension)
                 .IsRequired()
                 .HasMaxLength(256)

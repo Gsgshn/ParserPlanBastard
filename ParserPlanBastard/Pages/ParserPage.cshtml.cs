@@ -36,6 +36,31 @@ namespace ParserPlanBastard.Pages
         {
             return Page();
         }
+        public PartialViewResult OnGetRepeateOperations(string buttonText)
+        {
+            var file = _context.Files.FirstOrDefault(file => file.FileName == buttonText);
+
+            if(file != null) 
+            {
+                _xmlRepository.FilePath= FindFilePath(buttonText);
+                _xmlRepository.XmlDocument = new XmlDocument();
+                return Partial("_CarPartial", _xmlRepository.Nodes);
+
+            }
+            return Partial("_CarPartial");
+        }
+        public string FindFilePath(string fileName)
+        {
+            string basePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles");
+            string[] files = Directory.GetFiles(basePath, fileName, SearchOption.AllDirectories);
+
+            if (files.Length > 0)
+            {
+                return files[0];
+            }
+            return null;
+        }
+
         public PartialViewResult OnGetBtnClick(string buttonText)
         {
             var dtos = new List<DTOXmlRepresentation>();
@@ -64,6 +89,7 @@ namespace ParserPlanBastard.Pages
         }
 
 
+       
 
         private Node FindNode(IEnumerable<Node> nodes, string buttonText)
         {
@@ -111,7 +137,7 @@ namespace ParserPlanBastard.Pages
                 _xmlRepository.XmlDocument = new XmlDocument();
 
                 string basePath = Path.Combine(Environment.CurrentDirectory, "UploadedFiles");
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string fileName = Path.GetFileNameWithoutExtension(file.FileName);
                 string relativePath = Path.Combine("UploadedFiles", fileName);
                 string fullPath = Path.Combine(basePath, fileName);
 
@@ -128,8 +154,9 @@ namespace ParserPlanBastard.Pages
                 }
                 var newFile = new Models.Entities.File
                 {
-                    Hash = "hash_value",
-                    FilePath = relativePath,
+                    Hash = Models.Entities.File.ByteArrayToString(Models.Entities.File.ComputeAHash(fullPath)),
+                    FileName= fileName,
+                    FilePath = fullPath,
                     FileExtension =Path.GetExtension(file.FileName),
                     VolumeFile = file.Length,
                     UserId = user.Id
