@@ -16,14 +16,12 @@ namespace ParserPlanBastard.Pages
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
         private readonly IXmlRepository _xmlRepository;
-        private readonly IFileService _fileService;
 
-        public ParserPageModel(ApplicationDbContext context, UserManager<User> userManager, IXmlRepository xmlRepository, IFileService fileService)
+        public ParserPageModel(ApplicationDbContext context, UserManager<User> userManager, IXmlRepository xmlRepository)
         {
             _context = context;
             _userManager = userManager;
             _xmlRepository = xmlRepository;
-            _fileService = fileService;
         }
 
         [BindProperty]
@@ -156,7 +154,7 @@ namespace ParserPlanBastard.Pages
                 }
                 var newFile = new Models.Entities.File
                 {
-                    Hash = "asd"/*_fileService.ByteArrayToString(_fileService.ComputeAHash(fullPath))*/,
+                    Hash = Models.Entities.File.ByteArrayToString(Models.Entities.File.ComputeAHash(fullPath)),
                     FileName= fileName,
                     FilePath = fullPath,
                     FileExtension =Path.GetExtension(file.FileName),

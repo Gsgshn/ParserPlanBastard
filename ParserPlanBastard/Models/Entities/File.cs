@@ -20,6 +20,50 @@ namespace ParserPlanBastard.Models.Entities
         public ICollection<Element> Elements { get; set; }
         public ICollection<Logging> Loggings { get; set; }
 
-        
+        public static byte[] ComputeAHash(string file)
+        {
+            byte[] tmpSource;
+            byte[] tmpNewHash;
+
+            tmpSource = ASCIIEncoding.ASCII.GetBytes(file);
+
+            tmpNewHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource);
+
+            return tmpNewHash;
+        }
+
+        public static bool CheckHash(byte[] firstHash, byte[] secondHash)
+        {
+            bool bEqual = false;
+            if (secondHash.Length == firstHash.Length)
+            {
+                int i = 0;
+                while ((i < secondHash.Length) && (secondHash[i] == firstHash[i]))
+                {
+                    i += 1;
+                }
+                if (i == secondHash.Length)
+                {
+                    return bEqual = true;
+                }
+                else
+                    return bEqual = false;
+            }
+            return bEqual = false;
+        }
+
+
+
+
+        public static string ByteArrayToString(byte[] arrInput)
+        {
+            int i;
+            StringBuilder sOutput = new StringBuilder(arrInput.Length);
+            for (i = 0; i < arrInput.Length - 1; i++)
+            {
+                sOutput.Append(arrInput[i].ToString("X2"));
+            }
+            return sOutput.ToString();
+        }
     }
 }
