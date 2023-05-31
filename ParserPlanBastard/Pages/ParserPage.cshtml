@@ -62,7 +62,7 @@
             var buttonText = this.getAttribute('data-button-text');
             $.ajax({
                 
-               url: "/ParserPageModel?handler=RepeateOperations&buttonText" + encodeURIComponent(buttonText),
+               url: "/ParserPage?handler=RepeateOperations&buttonText" + encodeURIComponent(buttonText),
                success: function (result) {
                     $("#updateDiv").html(result);
                }
