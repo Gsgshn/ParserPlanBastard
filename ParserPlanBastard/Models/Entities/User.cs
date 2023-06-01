@@ -13,6 +13,8 @@ namespace ParserPlanBastard.Models.Entities
     {
        public bool IsDeleted { get; set; }
 
+        
+
         public ICollection<File> Files { get; set; }
         public ICollection<Logging> Loggings { get; set; }
     }

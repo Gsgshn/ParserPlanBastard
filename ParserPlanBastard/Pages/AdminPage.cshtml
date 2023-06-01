@@ -2,6 +2,50 @@
 @model ParserPlanBastard.Pages.AdminPageModel
 @{
 }
-<form method="post">
-	<button class="btn btn-danger">Test</button>
-</form>
+<div class="mb-3">
+    <div class="dropdown">
+        <button class="btn dropdown-toggle"
+                type="button" style="background-color:rgba(208, 202, 205, 0.17);"
+                id="historyDropdownButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+            фываыпывраполрдпраоаорапоап
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="historyDropdownButton">
+            @foreach (var logging in  Model.GetLoggingsByUserIdAsync())
+            {
+                if (logging.File != null)
+                {
+                   
+                        <li class="d-flex">
+                            <form method="post">
+                                <button type="submit" asp-page-handler="DeleteFile" asp-route-fileId="@logging.File.Id" class="my-button2" style="background: none; border: none; padding: 0; font: inherit; cursor: pointer;">
+                                    
+                                </button>
+                            </form>
+                            <button class="dropdown-item my-button1" data-button-text="@logging.File.FileName">
+                                @logging.Date: @logging.File.FileName : @logging.User.UserName
+                            </button>
+                        </li>
+
+                    
+                }
+            }
+        </ul>
+    </div>
+</div>
+<script>
+    var buttons = document.querySelectorAll('.my-button2');
+
+    buttons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var buttonText = this.getAttribute('data-button-text');
+            $.ajax({
+                url: "/AdminPage?handler=BtnClick&buttonText=" + encodeURIComponent(buttonText),
+                success: function (result) {
+                    $("#updateLoad").html(result);
+                }
+            });
+        });
+    });
+</script>
